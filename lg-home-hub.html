@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lynk Resource Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#2B2D78; --navy-deep:#1E1F5C; --purple:#554A9F; --teal:#27BB9C; --teal-dark:#1A9A80;
+  --orange:#F2A33A; --bg:#F6F6FA; --card:#FFFFFF; --line:#E3E3EE; --text:#1E1F3B; --muted:#5E6078;
+  --soft:#EEEEF6; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:8px}
+
+.hub{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 4px 16px rgba(30,31,92,.06)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.tab{appearance:none;border:1px solid transparent;background:var(--soft);color:var(--navy);font-weight:600;font-size:13.5px;line-height:1;font-family:inherit;
+  padding:11px 16px;border-radius:10px;cursor:pointer}
+.tab:hover{background:#E4E4F2}
+.tab[aria-selected="true"]{background:var(--navy);color:#fff}
+.group{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);margin:6px 0 10px;display:flex;align-items:center;gap:8px}
+.group::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--teal)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+.card{position:relative;display:flex;flex-direction:column;gap:6px;text-decoration:none;background:#FAFAFD;border:1px solid var(--line);
+  border-radius:14px;padding:16px;min-height:118px;transition:border-color .15s,box-shadow .15s,transform .15s}
+a.card:hover{border-color:var(--teal);box-shadow:0 6px 18px rgba(39,187,156,.14);transform:translateY(-1px)}
+.card.launch{background:#F2FBF8;border-color:#BDEBDD}
+.icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--soft);color:var(--navy);margin-bottom:4px}
+.card.launch .icon{background:var(--teal);color:#fff}
+.icon svg{width:18px;height:18px}
+.card h3{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.3}
+.card p{font-size:12.5px;color:var(--muted);line-height:1.45}
+.badge{position:absolute;top:12px;right:12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 8px;border-radius:999px}
+.badge.soon{background:#FFF3E0;color:#A85E00}
+.badge.hold{background:#FDECEC;color:#A12B2B}
+.card.off{cursor:default;opacity:.92}
+.panel[hidden]{display:none}
+.ext{position:absolute;bottom:12px;right:12px;width:14px;height:14px;color:var(--teal-dark)}
+@media (max-width:520px){.hub{padding:14px}.tab{padding:10px 12px;font-size:12.5px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<section class="hub" aria-label="Lynk resources">
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="panels"></div>
+</section>
+
+</main>
+<script>
+/* =====================================================================
+   EDIT HERE. Each card: title, text, url, and optional status.
+     url ""            -> shows "Coming soon" and is not clickable
+     status "hold"     -> shows "On hold" (e.g. waiting on signed agreement)
+     launch true       -> highlighted "start of day" style
+   Icons: emr, pill, calc, chat, doc, map, people, shield, phone,
+          globe, book, star, check, calendar, home, video
+   ===================================================================== */
+var HUB = [
+  { tab: "GLP-1 Program", groups: [
+    { name: "Point of care", cards: [
+      { icon:"book",  title:"GLP-1 Provider Reference", text:"Dosing ladders and prescribing guidance for semaglutide and tirzepatide.", url:"" },
+      { icon:"calc",  title:"BMI & Protein Calculator", text:"Baseline BMI and daily protein targets.", url:"" },
+      { icon:"chat",  title:"Patient Message Builder", text:"Consistent patient messages in English and Spanish.", url:"" }
+    ]},
+    { name: "Texas pharmacy", cards: [
+      { icon:"map",   title:"Texas Pharmacy Routing", text:"Which pharmacy fills each product in Texas, plus shipping limits.", url:"" },
+      { icon:"pill",  title:"Premier Pharmacy", text:"Semaglutide and tirzepatide references.", url:"" },
+      { icon:"pill",  title:"Belmar Pharmacy", text:"Semaglutide and tirzepatide references.", url:"" }
+    ]},
+    { name: "Protocols", cards: [
+      { icon:"doc",   title:"4, 8 and 12-Week GLP-1 Protocols", text:"Lynk titration protocols.", url:"", status:"hold" }
+    ]}
+  ]},
+  { tab: "Provider Tools", groups: [
+    { name: "Start of day", cards: [
+      { icon:"emr",   title:"EMR", text:"Charting, prescribing and closing notes.", url:"", launch:true },
+      { icon:"check", title:"Patient Queue", text:"Patients with completed intake who are ready to be seen.", url:"", launch:true },
+      { icon:"globe", title:"Translation Service", text:"Join a medical interpreter from the visit.", url:"", launch:true }
+    ]},
+    { name: "Reference", cards: [
+      { icon:"people",title:"Texas Licensed Providers", text:"Who is licensed and active for Texas patients.", url:"lg-home-tx-providers.html" },
+      { icon:"shield",title:"Clinical Standards", text:"Standard of care and documentation expectations.", url:"" },
+      { icon:"star",  title:"Intake Flags", text:"What to check for diabetes, high blood pressure and high cholesterol.", url:"" }
+    ]}
+  ]},
+  { tab: "Operations", groups: [
+    { name: "Team operations", cards: [
+      { icon:"phone", title:"Call Center Escalation", text:"What the call center may and may not do, and when to escalate.", url:"" },
+      { icon:"shield",title:"Compliance & BAAs", text:"HIPAA ownership and BAA status with partners.", url:"" },
+      { icon:"calendar",title:"Meetings", text:"Agendas, notes and standing meeting links.", url:"" },
+      { icon:"people",title:"Key Contacts", text:"Lynk, Renew and EMR contacts.", url:"" }
+    ]}
+  ]},
+  { tab: "Patient Education", groups: [
+    { name: "Patient-facing resources", cards: [
+      { icon:"home",  title:"Lynk Patient Hub", text:"The main patient page, in English and Spanish.", url:"https://lg-health.github.io/lynk-patient-site/Lynk_Patient_Hub.html" },
+      { icon:"video", title:"Injection Guides", text:"Videos and printable guides for patients.", url:"" }
+    ]}
+  ]},
+  { tab: "Provider Onboarding", groups: [
+    { name: "Onboarding path", cards: [
+      { icon:"star",  title:"1 - Welcome to Lynk Medical", text:"Who we are and how Lynk works with Renew.", url:"" },
+      { icon:"emr",   title:"2 - EMR Workflow", text:"Navigation, charting standards and prescribing.", url:"" },
+      { icon:"check", title:"3 - Systems & Tools", text:"Account setup for Lynk tools and communication.", url:"" },
+      { icon:"book",  title:"4 - Clinical Standards & Protocols", text:"GLP-1 protocols and documentation.", url:"" },
+      { icon:"phone", title:"5 - Call Center & Escalation", text:"How patient questions reach you and what to expect.", url:"" }
+    ]}
+  ]}
+];
+
+var ICONS = {
+  emr:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+  pill:'<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>',
+  calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+  doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  people:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15c3 0 5 2 5 5"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  phone:'<path d="M5 4h4l2 5-3 2a11 11 0 005 5l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 6a2 2 0 012-2z"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  book:'<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/>',
+  star:'<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/>',
+  check:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/>',
+  calendar:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  home:'<path d="M3 11l9-7 9 7v9H3z"/><path d="M10 20v-6h4v6"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>'
+};
+function svg(name){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[name]||ICONS.doc)+'</svg>';}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+(function(){
+  var tabs=document.getElementById('tabs'), panels=document.getElementById('panels');
+  HUB.forEach(function(t,i){
+    var id='p'+i;
+    var b=document.createElement('button');
+    b.className='tab'; b.type='button'; b.id='t'+i; b.setAttribute('role','tab');
+    b.setAttribute('aria-controls',id); b.setAttribute('aria-selected',i===0?'true':'false'); b.tabIndex=i===0?0:-1;
+    b.textContent=t.tab; tabs.appendChild(b);
+    var p=document.createElement('div'); p.className='panel'; p.id=id; p.setAttribute('role','tabpanel'); p.setAttribute('aria-labelledby','t'+i);
+    if(i!==0)p.hidden=true;
+    p.innerHTML=t.groups.map(function(g){
+      return '<div class="group">'+esc(g.name)+'</div><div class="grid">'+g.cards.map(function(c){
+        var cls='card'+(c.launch?' launch':'')+(c.url?'':' off');
+        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
+        var inner='<div class="icon">'+svg(c.icon)+'</div><h3>'+esc(c.title)+'</h3><p>'+esc(c.text)+'</p>'+badge;
+        if(c.url && c.status!=='hold'){
+          var internal=c.url.charAt(0)==='#';
+          return '<a class="'+cls+'" href="'+esc(c.url)+'"'+(internal?'':' target="_blank" rel="noopener"')+'>'+inner+(internal?'':'<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>')+'</a>';
+        }
+        return '<div class="'+cls+'">'+inner+'</div>';
+      }).join('')+'</div>';
+    }).join('');
+    panels.appendChild(p);
+  });
+  var all=[].slice.call(tabs.querySelectorAll('.tab'));
+  function select(i){all.forEach(function(b,j){var on=j===i;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;document.getElementById('p'+j).hidden=!on;});all[i].focus();}
+  all.forEach(function(b,i){
+    b.addEventListener('click',function(){select(i);});
+    b.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'){e.preventDefault();select((i+1)%all.length);}
+      if(e.key==='ArrowLeft'){e.preventDefault();select((i-1+all.length)%all.length);}
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lynk Texas Providers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#2B2D78; --navy-deep:#1E1F5C; --purple:#554A9F; --teal:#27BB9C; --teal-dark:#1A9A80;
+  --orange:#F2A33A; --bg:#F6F6FA; --card:#FFFFFF; --line:#E3E3EE; --text:#1E1F3B; --muted:#5E6078;
+  --soft:#EEEEF6; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:8px}
+
+.txp{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(30,31,92,.06)}
+.txp-head{background:var(--navy);color:#fff;padding:22px 24px;border-bottom:4px solid var(--teal)}
+.txp-head h2{font-size:20px;font-weight:800}
+.txp-head p{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:4px}
+.txp-body{padding:18px 24px 22px}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-bottom:14px}
+.tools label{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.tools .f{flex:1 1 220px}
+.tools input,.tools select{width:100%;font-weight:500;font-size:14px;font-family:inherit;color:var(--text);padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.tools input:focus,.tools select:focus{border-color:var(--teal);outline:none}
+.count{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.list{display:grid;gap:8px}
+.row{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#FAFAFD}
+.av{flex:0 0 40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;background:var(--purple)}
+.row .who{flex:1;min-width:0}
+.row .nm{font-weight:700;font-size:14.5px;color:var(--navy)}
+.row .meta{font-size:12.5px;color:var(--muted);margin-top:2px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--soft);color:var(--navy)}
+.tag.ok{background:#E3F6F0;color:#11795F}
+.tag.pend{background:#FFF3E0;color:#A85E00}
+.tag.es{background:#ECE9F8;color:var(--purple)}
+.empty{padding:22px;text-align:center;color:var(--muted);font-size:13.5px;border:1.5px dashed var(--line);border-radius:12px}
+.foot{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+@media (max-width:560px){.row{flex-wrap:wrap}.tags{justify-content:flex-start;width:100%;padding-left:54px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<section class="txp" id="tx-providers" aria-label="Texas licensed providers">
+  <div class="txp-head">
+    <h2>Who can see Texas patients</h2>
+    <p>Lynk Medical &middot; Phase 1 is Texas only &middot; Updated <span id="txUpdated"></span></p>
+  </div>
+  <div class="txp-body">
+    <div class="tools">
+      <div class="f"><label for="q">Search</label><input id="q" type="search" placeholder="Provider name" autocomplete="off"></div>
+      <div class="f" style="flex:0 1 200px"><label for="st">Status</label>
+        <select id="st"><option value="">All</option><option value="active">Active</option><option value="pending">Credentialing</option></select></div>
+      <div class="f" style="flex:0 1 200px"><label for="lg">Language</label>
+        <select id="lg"><option value="">Any</option><option value="Spanish">Speaks Spanish</option></select></div>
+    </div>
+    <div class="count" id="count"></div>
+    <div class="list" id="list"></div>
+    <p class="foot">Only providers with an active Texas license and completed Lynk credentialing should take patients. Check the license on the Texas Medical Board or Texas Board of Nursing site before a first visit.</p>
+  </div>
+</section>
+
+</main>
+<script>
+/* =====================================================================
+   EDIT HERE. One line per provider. Staff info only, never patient info.
+     status: "active" or "pending" (credentialing in progress)
+     languages: list, e.g. ["English","Spanish"]
+     licenseExp: "YYYY-MM-DD" (optional)
+   ===================================================================== */
+var UPDATED = "2026-10-17";
+var PROVIDERS = [
+  { name:"Provider name 1", credential:"NP", status:"pending", languages:["English","Spanish"], licenseExp:"" },
+  { name:"Provider name 2", credential:"NP", status:"pending", languages:["English"], licenseExp:"" },
+  { name:"Provider name 3", credential:"PA-C", status:"pending", languages:["English","Spanish"], licenseExp:"" }
+];
+
+(function(){
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var q=document.getElementById('q'), st=document.getElementById('st'), lg=document.getElementById('lg');
+  var list=document.getElementById('list'), count=document.getElementById('count');
+  var d=new Date(UPDATED+'T12:00:00');
+  document.getElementById('txUpdated').textContent=isNaN(d)?UPDATED:d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  function initials(n){return n.split(/\s+/).filter(Boolean).slice(0,2).map(function(w){return w[0].toUpperCase();}).join('');}
+  function render(){
+    var term=q.value.trim().toLowerCase();
+    var rows=PROVIDERS.filter(function(p){
+      return (!term||p.name.toLowerCase().indexOf(term)>-1)&&(!st.value||p.status===st.value)&&(!lg.value||(p.languages||[]).indexOf(lg.value)>-1);
+    }).sort(function(a,b){return (a.status===b.status?0:a.status==='active'?-1:1)||a.name.localeCompare(b.name);});
+    var active=PROVIDERS.filter(function(p){return p.status==='active';}).length;
+    count.textContent=rows.length+' shown · '+active+' active for Texas';
+    if(!rows.length){list.innerHTML='<div class="empty">No providers match. Clear the search or filters.</div>';return;}
+    list.innerHTML=rows.map(function(p){
+      var tags=(p.status==='active'?'<span class="tag ok">Active</span>':'<span class="tag pend">Credentialing</span>');
+      if((p.languages||[]).indexOf('Spanish')>-1)tags+='<span class="tag es">Español</span>';
+      var meta=esc(p.credential||'')+' · Texas'+(p.licenseExp?' · License through '+esc(p.licenseExp):'');
+      return '<div class="row"><div class="av" aria-hidden="true">'+esc(initials(p.name))+'</div><div class="who"><div class="nm">'+esc(p.name)+'</div><div class="meta">'+meta+'</div></div><div class="tags">'+tags+'</div></div>';
+    }).join('');
+  }
+  [q,st,lg].forEach(function(el){el.addEventListener('input',render);el.addEventListener('change',render);});
+  render();
+})();
+</script>
+</body>
+</html>

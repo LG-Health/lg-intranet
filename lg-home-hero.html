@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lynk Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#2B2D78; --navy-deep:#1E1F5C; --purple:#554A9F; --teal:#27BB9C; --teal-dark:#1A9A80;
+  --orange:#F2A33A; --bg:#F6F6FA; --card:#FFFFFF; --line:#E3E3EE; --text:#1E1F3B; --muted:#5E6078;
+  --soft:#EEEEF6; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:8px}
+
+.hero{position:relative;overflow:hidden;border-radius:20px;color:#fff;
+  background:linear-gradient(120deg,var(--navy-deep) 0%,var(--navy) 45%,var(--purple) 100%);
+  box-shadow:0 10px 30px rgba(30,31,92,.18);display:flex;align-items:center;gap:32px;padding:32px 40px;min-height:240px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 300px at 85% 0%,rgba(39,187,156,.28),transparent 60%),
+             radial-gradient(400px 260px at 0% 100%,rgba(39,187,156,.14),transparent 60%)}
+.logo-disc{position:relative;z-index:1;flex:0 0 auto;width:176px;height:176px;border-radius:50%;
+  background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 0 0 6px rgba(39,187,156,.18);
+  display:flex;align-items:center;justify-content:center}
+.logo-disc spinning-logo{width:150px;height:150px}
+.hero-text{position:relative;z-index:1;min-width:0}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:#BFF3E6;border:1px solid rgba(191,243,230,.45);border-radius:999px;padding:6px 14px;margin-bottom:14px}
+.hero h1{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.15;letter-spacing:-.01em}
+.hero h1 span{color:var(--teal)}
+.date{display:inline-block;margin-top:14px;font-size:14px;font-weight:600;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 14px}
+.tz{margin-top:12px;font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.5}
+@media (max-width:640px){
+  .hero{flex-direction:column;text-align:center;padding:28px 20px;gap:20px}
+  .logo-disc{width:132px;height:132px}.logo-disc spinning-logo{width:112px;height:112px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<section class="hero" aria-label="Welcome">
+  <div class="logo-disc"><spinning-logo no-shadow speed="0.8" aria-hidden="true"></spinning-logo></div>
+  <div class="hero-text">
+    <div class="pill">Lynk Medical &middot; Clinical Team Hub</div>
+    <h1><span id="greet">Welcome</span>, Lynk Team</h1>
+    <div class="date" id="today">&nbsp;</div>
+    <p class="tz">Texas patients are on Central Time, except the El Paso area (far West Texas), which is on Mountain Time.</p>
+  </div>
+</section>
+
+</main>
+<script src="assets/spinning-logo.js"></script>
+<script>
+(function(){
+  var tz='America/Chicago', now=new Date();
+  var h=parseInt(new Intl.DateTimeFormat('en-US',{hour:'numeric',hour12:false,timeZone:tz}).format(now),10)%24;
+  document.getElementById('greet').textContent = h<12 ? 'Good morning' : h<17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('today').textContent = 'Today is ' + new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:tz}).format(now);
+})();
+</script>
+</body>
+</html>
