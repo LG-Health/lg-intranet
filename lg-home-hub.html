@@ -38,6 +38,7 @@ a.card:hover{border-color:var(--teal);box-shadow:0 6px 18px rgba(39,187,156,.14)
 .badge{position:absolute;top:12px;right:12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 8px;border-radius:999px}
 .badge.soon{background:#FFF3E0;color:#A85E00}
 .badge.hold{background:#FDECEC;color:#A12B2B}
+.badge.internal{background:#ECEBF7;color:#2B2D78}
 .card.off{cursor:default;opacity:.92}
 .panel[hidden]{display:none}
 .ext{position:absolute;bottom:12px;right:12px;width:14px;height:14px;color:var(--teal-dark)}
@@ -58,58 +59,75 @@ a.card:hover{border-color:var(--teal);box-shadow:0 6px 18px rgba(39,187,156,.14)
    EDIT HERE. Each card: title, text, url, and optional status.
      url ""            -> shows "Coming soon" and is not clickable
      status "hold"     -> shows "On hold" (e.g. waiting on signed agreement)
+     status "internal" -> shows "Lynk site only": the page exists but its link is kept off
+                          this public repo; add it as a button on the Google Site instead
      launch true       -> highlighted "start of day" style
    Icons: emr, pill, calc, chat, doc, map, people, shield, phone,
           globe, book, star, check, calendar, home, video
    ===================================================================== */
 var HUB = [
   { tab: "GLP-1 Program", groups: [
-    { name: "Point of care", cards: [
-      { icon:"book",  title:"GLP-1 Provider Reference", text:"Dosing ladders and prescribing guidance for semaglutide and tirzepatide.", url:"" },
-      { icon:"calc",  title:"BMI & Protein Calculator", text:"Baseline BMI and daily protein targets.", url:"" },
-      { icon:"chat",  title:"Patient Message Builder", text:"Consistent patient messages in English and Spanish.", url:"" }
+    { name: "Clinical protocols", cards: [
+      { icon:"doc",   title:"GLP-1 Clinical Protocol (1.1)", text:"Who qualifies, dosing, red flags, missed doses and restarting.", url:"", status:"internal" },
+      { icon:"map",   title:"Pharmacy Routing and Shipping (1.2)", text:"Which pharmacy fills each product, by state and allergy.", url:"", status:"internal" },
+      { icon:"star",  title:"Program Options", text:"Supply lengths, visit types and how the program runs.", url:"", status:"internal" }
     ]},
-    { name: "Texas pharmacy", cards: [
-      { icon:"map",   title:"Texas Pharmacy Routing", text:"Which pharmacy fills each product in Texas, plus shipping limits.", url:"" },
-      { icon:"pill",  title:"Premier Pharmacy", text:"Semaglutide and tirzepatide references.", url:"" },
-      { icon:"pill",  title:"Belmar Pharmacy", text:"Semaglutide and tirzepatide references.", url:"" }
-    ]},
-    { name: "Protocols", cards: [
-      { icon:"doc",   title:"4, 8 and 12-Week GLP-1 Protocols", text:"Lynk titration protocols.", url:"", status:"hold" }
+    { name: "Operations", cards: [
+      { icon:"book",  title:"Clinic Operations Manual (2.1)", text:"Visits, refills, shipping, messages and escalation.", url:"", status:"internal" },
+      { icon:"check", title:"Refill Form", text:"The smart refill form patients complete between video visits.", url:"", status:"internal" }
     ]}
   ]},
   { tab: "Provider Tools", groups: [
+    { name: "Point of care", cards: [
+      { icon:"book",  title:"Provider Quick Reference (3.1)", text:"Dose steps, increase or hold, supply length and red flags.", url:"", status:"internal" },
+      { icon:"doc",   title:"Visit Note Templates (3.2)", text:"First visit, follow-up and refill note templates.", url:"", status:"internal" },
+      { icon:"chat",  title:"Post-Visit Patient Messages (3.3)", text:"Patient messages in English and Spanish.", url:"", status:"internal" },
+      { icon:"shield",title:"Side-Effect Guide (3.4)", text:"Stomach basics, side effects, red flags and patient messages.", url:"", status:"internal" }
+    ]},
+    { name: "Interactive tools", cards: [
+      { icon:"chat",  title:"GLP-1 Message Builder", text:"Pick state, product and dose; copy the patient message and syringe image.", url:"", status:"internal" },
+      { icon:"calc",  title:"GLP-1 Side-Effect Tool", text:"Pick one or more side effects; copy the patient message.", url:"", status:"internal" }
+    ]},
     { name: "Start of day", cards: [
       { icon:"emr",   title:"EMR", text:"Charting, prescribing and closing notes.", url:"", launch:true },
       { icon:"check", title:"Patient Queue", text:"Patients with completed intake who are ready to be seen.", url:"", launch:true },
       { icon:"globe", title:"Translation Service", text:"Join a medical interpreter from the visit.", url:"", launch:true }
+    ]}
+  ]},
+  { tab: "Patient Education", groups: [
+    { name: "Start here", cards: [
+      { icon:"home",  title:"Lynk Patient Hub", text:"The main patient page, in English and Spanish.", url:"https://lg-health.github.io/lynk-patient-site/Lynk_Patient_Hub.html" },
+      { icon:"star",  title:"Start Here", text:"What happens first, and the guides in order.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Start_Here.html" },
+      { icon:"book",  title:"Program Overview", text:"Medications, supply length and compounded medication.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Program_Overview.html" }
     ]},
-    { name: "Reference", cards: [
-      { icon:"people",title:"Texas Licensed Providers", text:"Who is licensed and active for Texas patients.", url:"lg-home-tx-providers.html" },
-      { icon:"shield",title:"Clinical Standards", text:"Standard of care and documentation expectations.", url:"" },
-      { icon:"star",  title:"Intake Flags", text:"What to check for diabetes, high blood pressure and high cholesterol.", url:"" }
+    { name: "Guides", cards: [
+      { icon:"pill",  title:"Semaglutide Guide", text:"Dosing, missed doses, eating and side effects.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Semaglutide_Guide.html" },
+      { icon:"pill",  title:"Tirzepatide Guide", text:"Dosing, missed doses, eating and side effects.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Tirzepatide_Guide.html" },
+      { icon:"shield",title:"Injection, Storage and Safety", text:"How to inject, store and dispose of needles.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Injection_Storage_Safety.html" },
+      { icon:"check", title:"Stomach Comfort", text:"The basics, and each side effect one by one.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Stomach_Comfort.html" },
+      { icon:"phone", title:"When to Contact Us", text:"What to message about, and when to get care right away.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_When_to_Contact.html" },
+      { icon:"doc",   title:"Glossary", text:"Plain-language meanings of medical words.", url:"https://lg-health.github.io/lynk-patient-site/Patient_Education/Lynk_GLP1_Glossary.html" }
+    ]},
+    { name: "Patient tools", cards: [
+      { icon:"calc",  title:"My Injection Dose Guide", text:"See the dose on a syringe.", url:"https://lg-health.github.io/lynk-patient-site/Lynk_GLP1_Dose_Guide.html" },
+      { icon:"calc",  title:"Protein Target Calculator", text:"Daily protein goal and meal ideas.", url:"https://lg-health.github.io/lynk-patient-site/Lynk_GLP1_Protein_Calculator.html" },
+      { icon:"video", title:"Injection Videos", text:"Short how-to videos for patients.", url:"" }
     ]}
   ]},
   { tab: "Operations", groups: [
     { name: "Team operations", cards: [
-      { icon:"phone", title:"Call Center Escalation", text:"What the call center may and may not do, and when to escalate.", url:"" },
-      { icon:"shield",title:"Compliance & BAAs", text:"HIPAA ownership and BAA status with partners.", url:"" },
       { icon:"calendar",title:"Meetings", text:"Agendas, notes and standing meeting links.", url:"" },
-      { icon:"people",title:"Key Contacts", text:"Lynk, Renew and EMR contacts.", url:"" }
-    ]}
-  ]},
-  { tab: "Patient Education", groups: [
-    { name: "Patient-facing resources", cards: [
-      { icon:"home",  title:"Lynk Patient Hub", text:"The main patient page, in English and Spanish.", url:"https://lg-health.github.io/lynk-patient-site/Lynk_Patient_Hub.html" },
-      { icon:"video", title:"Injection Guides", text:"Videos and printable guides for patients.", url:"" }
+      { icon:"people",title:"Key Contacts", text:"Lynk team and partner contacts.", url:"" },
+      { icon:"shield",title:"Compliance", text:"HIPAA and partner agreements.", url:"" },
+      { icon:"people",title:"Provider Credentialing", text:"Licensing and credentialing status. Being built.", url:"" }
     ]}
   ]},
   { tab: "Provider Onboarding", groups: [
     { name: "Onboarding path", cards: [
-      { icon:"star",  title:"1 - Welcome to Lynk Medical", text:"Who we are and how Lynk works with Renew.", url:"" },
+      { icon:"star",  title:"1 - Welcome to Lynk Medical", text:"Who we are and how Lynk works.", url:"" },
       { icon:"emr",   title:"2 - EMR Workflow", text:"Navigation, charting standards and prescribing.", url:"" },
       { icon:"check", title:"3 - Systems & Tools", text:"Account setup for Lynk tools and communication.", url:"" },
-      { icon:"book",  title:"4 - Clinical Standards & Protocols", text:"GLP-1 protocols and documentation.", url:"" },
+      { icon:"book",  title:"4 - Clinical Protocols", text:"The GLP-1 protocols and provider references.", url:"" },
       { icon:"phone", title:"5 - Call Center & Escalation", text:"How patient questions reach you and what to expect.", url:"" }
     ]}
   ]}
@@ -149,7 +167,7 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
     p.innerHTML=t.groups.map(function(g){
       return '<div class="group">'+esc(g.name)+'</div><div class="grid">'+g.cards.map(function(c){
         var cls='card'+(c.launch?' launch':'')+(c.url?'':' off');
-        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
+        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':c.status==='internal'?'<span class="badge internal">Lynk site only</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
         var inner='<div class="icon">'+svg(c.icon)+'</div><h3>'+esc(c.title)+'</h3><p>'+esc(c.text)+'</p>'+badge;
         if(c.url && c.status!=='hold'){
           var internal=c.url.charAt(0)==='#';
