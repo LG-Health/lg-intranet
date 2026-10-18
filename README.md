@@ -11,7 +11,7 @@ Links to provider documents, tools, spreadsheets and anything internal go on the
 | File | What it is | Google Sites embed height |
 |---|---|---|
 | `lg-home-hero.html` | Home page banner with the spinning logo | about 300 px |
-| `lg-home-hub.html` | Tabbed resource hub | about 640 px |
+| `lg-home-hub.html` | Tabbed resource hub with the Provider Library button; internal cards open the Library page | about 720 px |
 | `lg-home-tx-providers.html` | Provider credentialing placeholder (no names) | about 220 px |
 | `spinning-logo.js` | 3D logo script used by the hero. Keep it next to the hero file | n/a |
 | `index.html` | The three embeds stacked, for review | n/a |
@@ -19,5 +19,5 @@ Links to provider documents, tools, spreadsheets and anything internal go on the
 ## Editing
 
 - Hub cards: open `lg-home-hub.html`, find `EDIT HERE`. Empty `url` shows "Coming soon".
-  `status:"internal"` shows "Lynk site only": the page exists, but its link stays off this public repo.
+  `status:"internal"` opens the Provider Library page on the Google Site (only Lynk accounts can open it); the document links themselves stay off this public repo.
 - Provider credentialing will be its own private tool; this page stays a placeholder until then.

@@ -18,6 +18,10 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:8px}
 
 .hub{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 4px 16px rgba(30,31,92,.06)}
+.libbar{display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;background:var(--navy);color:#fff;border-radius:12px;padding:14px 18px;margin:0 0 16px;transition:transform .15s ease,box-shadow .15s ease}
+.libbar b{display:block;font-size:15px;font-weight:800}.libbar span{font-size:13px;color:#CFE9E1}
+.libbar em{font-style:normal;font-weight:800;font-size:13px;background:var(--teal);color:#fff;border-radius:20px;padding:6px 14px;white-space:nowrap}
+.libbar:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(43,45,120,.3)}
 .tabs{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{appearance:none;border:1px solid transparent;background:var(--soft);color:var(--navy);font-weight:600;font-size:13.5px;line-height:1;font-family:inherit;
   padding:11px 16px;border-radius:10px;cursor:pointer}
@@ -49,6 +53,7 @@ a.card:hover{border-color:var(--teal);box-shadow:0 6px 18px rgba(39,187,156,.14)
 <main class="wrap">
 
 <section class="hub" aria-label="Lynk resources">
+  <a class="libbar" id="libbar" target="_blank" rel="noopener"><span><b>Provider Library</b> Every protocol, reference and provider tool in one place</span><em>Open ›</em></a>
   <div class="tabs" role="tablist" id="tabs"></div>
   <div id="panels"></div>
 </section>
@@ -59,12 +64,14 @@ a.card:hover{border-color:var(--teal);box-shadow:0 6px 18px rgba(39,187,156,.14)
    EDIT HERE. Each card: title, text, url, and optional status.
      url ""            -> shows "Coming soon" and is not clickable
      status "hold"     -> shows "On hold" (e.g. waiting on signed agreement)
-     status "internal" -> shows "Lynk site only": the page exists but its link is kept off
-                          this public repo; add it as a button on the Google Site instead
+     status "internal" -> opens the Provider Library page on the Google Site, where the real
+                          links live. The document links themselves never go in this public repo.
      launch true       -> highlighted "start of day" style
    Icons: emr, pill, calc, chat, doc, map, people, shield, phone,
           globe, book, star, check, calendar, home, video
    ===================================================================== */
+// the Provider Library page on the Lynk Google Site: only lynkgroup.com accounts can open it
+var LIBRARY = "https://sites.google.com/lynkgroup.com/lynk-intranet/provider-library";
 var HUB = [
   { tab: "GLP-1 Program", groups: [
     { name: "Clinical protocols", cards: [
@@ -164,6 +171,7 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
 
 (function(){
   var tabs=document.getElementById('tabs'), panels=document.getElementById('panels');
+  document.getElementById('libbar').href=LIBRARY;
   HUB.forEach(function(t,i){
     var id='p'+i;
     var b=document.createElement('button');
@@ -174,8 +182,9 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
     if(i!==0)p.hidden=true;
     p.innerHTML=t.groups.map(function(g){
       return '<div class="group">'+esc(g.name)+'</div><div class="grid">'+g.cards.map(function(c){
+        if(c.status==='internal')c={icon:c.icon,title:c.title,text:c.text,status:c.status,url:LIBRARY};
         var cls='card'+(c.launch?' launch':'')+(c.url?'':' off');
-        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':c.status==='internal'?'<span class="badge internal">Lynk site only</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
+        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':c.status==='internal'?'<span class="badge internal">In the Provider Library</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
         var inner='<div class="icon">'+svg(c.icon)+'</div><h3>'+esc(c.title)+'</h3><p>'+esc(c.text)+'</p>'+badge;
         if(c.url && c.status!=='hold'){
           var internal=c.url.charAt(0)==='#';
