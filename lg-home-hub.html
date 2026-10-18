@@ -64,8 +64,10 @@ a.card:hover{border-color:var(--teal);box-shadow:0 6px 18px rgba(39,187,156,.14)
    EDIT HERE. Each card: title, text, url, and optional status.
      url ""            -> shows "Coming soon" and is not clickable
      status "hold"     -> shows "On hold" (e.g. waiting on signed agreement)
-     status "internal" -> opens the Provider Library page on the Google Site, where the real
-                          links live. The document links themselves never go in this public repo.
+     status "internal" -> a provider document. key names it. This public copy opens the Provider
+                          Library page; the private Home embed (lg-clinical-docs/intranet) adds
+                          window.LINKS so each card opens its own document. The document links
+                          themselves never go in this public repo.
      launch true       -> highlighted "start of day" style
    Icons: emr, pill, calc, chat, doc, map, people, shield, phone,
           globe, book, star, check, calendar, home, video
@@ -75,33 +77,33 @@ var LIBRARY = "https://sites.google.com/lynkgroup.com/lynk-intranet/provider-lib
 var HUB = [
   { tab: "GLP-1 Program", groups: [
     { name: "Clinical protocols", cards: [
-      { icon:"shield",title:"Provider Standards of Practice (1.0)", text:"Conduct, documentation, communication, quality and time off for every provider.", url:"", status:"internal" },
-      { icon:"doc",   title:"GLP-1 Clinical Protocol (1.1)", text:"Who qualifies, dosing, red flags, missed doses and restarting.", url:"", status:"internal" },
-      { icon:"map",   title:"Pharmacy Routing and Shipping (1.2)", text:"Which pharmacy fills each product, by state and allergy.", url:"", status:"internal" },
-      { icon:"star",  title:"Program Options", text:"Supply lengths, visit types and how the program runs.", url:"", status:"internal" }
+      { icon:"shield",title:"Provider Standards of Practice (1.0)", text:"Conduct, documentation, communication, quality and time off for every provider.", url:"", status:"internal", key:"standards" },
+      { icon:"doc",   title:"GLP-1 Clinical Protocol (1.1)", text:"Who qualifies, dosing, red flags, missed doses and restarting.", url:"", status:"internal", key:"protocol" },
+      { icon:"map",   title:"Pharmacy Routing and Shipping (1.2)", text:"Which pharmacy fills each product, by state and allergy.", url:"", status:"internal", key:"pharmacy" },
+      { icon:"star",  title:"Program Options", text:"Supply lengths, visit types and how the program runs.", url:"", status:"internal", key:"options" }
     ]},
     { name: "Operations", cards: [
-      { icon:"book",  title:"Clinic Operations Manual (2.1)", text:"Visits, refills, shipping, messages and escalation.", url:"", status:"internal" },
-      { icon:"check", title:"Refill Form", text:"The smart refill form patients complete between video visits.", url:"", status:"internal" }
+      { icon:"book",  title:"Clinic Operations Manual (2.1)", text:"Visits, refills, shipping, messages and escalation.", url:"", status:"internal", key:"ops" },
+      { icon:"check", title:"Refill Form", text:"The smart refill form patients complete between video visits.", url:"", status:"internal", key:"refill" }
     ]}
   ]},
   { tab: "Provider Tools", groups: [
     { name: "Point of care", cards: [
-      { icon:"book",  title:"Provider Quick Reference (3.1)", text:"Dose steps, increase or hold, supply length and red flags.", url:"", status:"internal" },
-      { icon:"doc",   title:"Visit Note Templates (3.2)", text:"First visit, follow-up and refill note templates.", url:"", status:"internal" },
-      { icon:"chat",  title:"Post-Visit Patient Messages (3.3)", text:"Patient messages in English and Spanish.", url:"", status:"internal" },
-      { icon:"shield",title:"Side-Effect Guide (3.4)", text:"Stomach basics, side effects, red flags and patient messages.", url:"", status:"internal" }
+      { icon:"book",  title:"Provider Quick Reference (3.1)", text:"Dose steps, increase or hold, supply length and red flags.", url:"", status:"internal", key:"quickref" },
+      { icon:"doc",   title:"Visit Note Templates (3.2)", text:"First visit, follow-up and refill note templates.", url:"", status:"internal", key:"notes" },
+      { icon:"chat",  title:"Post-Visit Patient Messages (3.3)", text:"Patient messages in English and Spanish.", url:"", status:"internal", key:"messages" },
+      { icon:"shield",title:"Side-Effect Guide (3.4)", text:"Stomach basics, side effects, red flags and patient messages.", url:"", status:"internal", key:"seguide" }
     ]},
     { name: "Prescribing references", cards: [
-      { icon:"pill",  title:"Premier Semaglutide (3.5)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference. Includes the dots.", url:"", status:"internal" },
-      { icon:"pill",  title:"Premier Semaglutide with Glycine (3.6)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference.", url:"", status:"internal" },
-      { icon:"pill",  title:"Premier Tirzepatide (3.7)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference. Includes the dots.", url:"", status:"internal" },
-      { icon:"pill",  title:"Belmar Semaglutide (3.8)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference. Includes FastSL tablets.", url:"", status:"internal" },
-      { icon:"pill",  title:"Belmar Tirzepatide (3.9)", text:"Tirzepatide with L-carnitine, for patients who cannot take vitamin B-12.", url:"", status:"internal" }
+      { icon:"pill",  title:"Premier Semaglutide (3.5)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference. Includes the dots.", url:"", status:"internal", key:"rx-ps" },
+      { icon:"pill",  title:"Premier Semaglutide with Glycine (3.6)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference.", url:"", status:"internal", key:"rx-psg" },
+      { icon:"pill",  title:"Premier Tirzepatide (3.7)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference. Includes the dots.", url:"", status:"internal", key:"rx-pt" },
+      { icon:"pill",  title:"Belmar Semaglutide (3.8)", text:"Dose steps, vials, Healthie prescriptions and the clinical reference. Includes FastSL tablets.", url:"", status:"internal", key:"rx-bs" },
+      { icon:"pill",  title:"Belmar Tirzepatide (3.9)", text:"Tirzepatide with L-carnitine, for patients who cannot take vitamin B-12.", url:"", status:"internal", key:"rx-bt" }
     ]},
     { name: "Interactive tools", cards: [
-      { icon:"chat",  title:"GLP-1 Message Builder", text:"Pick state, product and dose; copy the patient message and syringe image.", url:"", status:"internal" },
-      { icon:"calc",  title:"GLP-1 Side-Effect Tool", text:"Pick one or more side effects; copy the patient message.", url:"", status:"internal" }
+      { icon:"chat",  title:"GLP-1 Message Builder", text:"Pick state, product and dose; copy the patient message and syringe image.", url:"", status:"internal", key:"builder" },
+      { icon:"calc",  title:"GLP-1 Side-Effect Tool", text:"Pick one or more side effects; copy the patient message.", url:"", status:"internal", key:"setool" }
     ]},
     { name: "Start of day", cards: [
       { icon:"emr",   title:"EMR", text:"Charting, prescribing and closing notes.", url:"", launch:true },
@@ -182,9 +184,10 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
     if(i!==0)p.hidden=true;
     p.innerHTML=t.groups.map(function(g){
       return '<div class="group">'+esc(g.name)+'</div><div class="grid">'+g.cards.map(function(c){
-        if(c.status==='internal')c={icon:c.icon,title:c.title,text:c.text,status:c.status,url:LIBRARY};
+        var direct=c.status==='internal'&&window.LINKS&&LINKS[c.key];
+        if(c.status==='internal')c={icon:c.icon,title:c.title,text:c.text,status:c.status,url:direct||LIBRARY,direct:direct};
         var cls='card'+(c.launch?' launch':'')+(c.url?'':' off');
-        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':c.status==='internal'?'<span class="badge internal">In the Provider Library</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
+        var badge=c.status==='hold'?'<span class="badge hold">On hold</span>':c.status==='internal'?'<span class="badge internal">'+(c.direct?'Internal':'In the Provider Library')+'</span>':(!c.url?'<span class="badge soon">Coming soon</span>':'');
         var inner='<div class="icon">'+svg(c.icon)+'</div><h3>'+esc(c.title)+'</h3><p>'+esc(c.text)+'</p>'+badge;
         if(c.url && c.status!=='hold'){
           var internal=c.url.charAt(0)==='#';
