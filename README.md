@@ -19,5 +19,5 @@ Links to provider documents, tools, spreadsheets and anything internal go on the
 ## Editing
 
 - Hub cards: open `lg-home-hub.html`, find `EDIT HERE`. Empty `url` shows "Coming soon".
-  `status:"internal"` opens the Provider Library page on the Google Site (only Lynk accounts can open it); the document links themselves stay off this public repo.
+  `status:"internal"` opens the Provider Library page on the Google Site (only LYNK accounts can open it); the document links themselves stay off this public repo.
 - Provider credentialing will be its own private tool; this page stays a placeholder until then.
